@@ -64,4 +64,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function emailTemplates()
+    {
+        return $this->hasMany(EmailTemplate::class, 'created_by');
+    }
+
 }

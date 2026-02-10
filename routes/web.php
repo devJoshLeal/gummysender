@@ -2,6 +2,8 @@
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\EmailTemplateController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -22,3 +24,4 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 });
+Route::get('/email-templates', [EmailTemplateController::class,'index'])->name("email-templates.index");
