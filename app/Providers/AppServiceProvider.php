@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Providers;
+use Illuminate\Support\Facades\Gate;
+use App\Models\EmailTemplate;
+use App\Policies\EmailTemplatePolicy;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -19,6 +22,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Gate::policy(EmailTemplate::class, EmailTemplatePolicy::class);
     }
 }

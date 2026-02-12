@@ -19,6 +19,7 @@ class EmailTemplateController extends Controller
                 'title' => $template->title,
                 'subject' => $template->subject,
                 'author' => [
+                    'id' => $template->author?->id,
                     'name' => $template->author?->name
                 ],
             ];
@@ -55,6 +56,39 @@ class EmailTemplateController extends Controller
         return Inertia::render('EmailTemplates/Show', [
             'template' => $emailTemplate
         ]);
+    }
+    public function edit(EmailTemplate $emailTemplate)
+    {
+        $this->authorize('update', $emailTemplate);
+
+        return Inertia::render('EmailTemplates/Edit', [
+            'template' => $emailTemplate
+        ]);
+    }
+    public function update(Request $request, EmailTemplate $emailTemplate)
+    {
+        $this->authorize('update', $emailTemplate);
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'subject' => 'required|string|max:255',
+            'content_html' => 'required|string',
+        ]);
+
+        $emailTemplate->update($validated);
+
+        return redirect()
+            ->route('email-templates.show', $emailTemplate->id)
+            ->with('success', 'Plantilla actualizada correctamente.');
+    }
+    public function destroy(EmailTemplate $emailTemplate)
+    {
+        $this->authorize('delete', $emailTemplate);
+        $emailTemplate->delete();
+
+        return redirect()
+            ->route('email-templates.index')
+            ->with('success', 'Plantilla eliminada correctamente.');
     }
 
 }

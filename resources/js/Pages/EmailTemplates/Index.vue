@@ -1,9 +1,15 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { Link, useForm } from '@inertiajs/vue3'
 import AppLayout from '@/Layouts/AppLayout.vue';
 defineProps({
     templates: Array
 })
+const form = useForm({})
+function confirmDelete(id) {
+    if (confirm('¿Estás seguro de que deseas eliminar esta plantilla?')) {
+        form.delete(route('email-templates.destroy', id))
+    }
+}
 </script>
 
 <template>
@@ -16,7 +22,7 @@ defineProps({
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <!--Create new email template button-->
-                <div class="flex justify-end mb-6">
+                <div class="flex justify-start mb-6">
                     <Link 
                         :href="route('email-templates.create')" 
                         class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
@@ -41,12 +47,31 @@ defineProps({
                         <p class="text-sm text-gray-600 mt-1">
                             {{ template.subject }}
                         </p>
-                        <Link 
-                            :href="route('email-templates.show', template.id)"
-                            class="text-blue-600 hover:underline"
+                        <div 
+                            
+                            class="flex gap-4 mt-6"
                         >
-                            Ver
-                        </Link>
+                            <Link 
+                                :href="route('email-templates.show', template.id)"
+                                class="text-blue-600 hover:underline"
+                            >
+                                Ver
+                            </Link>
+                            <Link
+                                v-if="$page.props.auth.user.id === template.author.id"
+                                :href="route('email-templates.edit', template.id)"
+                                class="text-indigo-600 hover:underline"
+                            >
+                                Editar
+                            </Link>
+
+                            <button v-if="$page.props.auth.user.id === template.author.id"
+                                @click="confirmDelete(template.id)"
+                                class="text-red-600 hover:underline"
+                            >
+                                Eliminar
+                            </button>
+                        </div>
                         <div class="mt-4 text-xs text-gray-400">
                             <span>
                                 Created by: {{ template.author?.name ?? 'N/A' }}
