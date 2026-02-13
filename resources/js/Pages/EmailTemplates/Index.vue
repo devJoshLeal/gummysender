@@ -12,7 +12,7 @@ const form = useForm({})
 function confirmDelete(id) {
     Swal.fire({
         title: '¿Eliminar plantilla?',
-        text: 'Esta acción no se puede deshacer.',
+        text: 'Esta acción no se puede deshacer (o si?).',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#dc2626',
@@ -49,7 +49,7 @@ function confirmDelete(id) {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <!--Create new email template button-->
-                <div class="flex justify-start mb-6">
+                <div class="flex justify-start mb-6 my-3">
                     <Link 
                         :href="route('email-templates.create')" 
                         class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
@@ -105,6 +105,14 @@ function confirmDelete(id) {
                             </span>
                         </div>
                     </div>
+                </div>
+                <div class="flex justify-start mb-6 my-3">
+                    <Link 
+                        :href="route('email-templates.create')" 
+                        class="px-4 py-2 bg-gray-400 text-white rounded-md hover:bg-gray-500 transition"
+                    >
+                        Papelera de Reciclaje
+                    </Link>
                 </div>
             </div>
         </div>

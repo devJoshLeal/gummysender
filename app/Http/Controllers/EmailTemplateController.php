@@ -90,5 +90,53 @@ class EmailTemplateController extends Controller
             ->route('email-templates.index')
             ->with('success', 'Plantilla eliminada correctamente.');
     }
+    public function restore($id)
+    {
+        $template = EmailTemplate::withTrashed()->findOrFail($id);
+
+        $this->authorize('update', $template);
+
+        $template->restore();
+
+        return redirect()
+            ->route('email-templates.index')
+            ->with('success', 'Plantilla restaurada correctamente.');
+    }
+    public function trash()
+    {
+        $templates = EmailTemplate::onlyTrashed()
+            ->where('created_by', auth()->id())
+            ->latest()
+            ->get();
+
+        return Inertia::render('EmailTemplates/Trash', [
+            'templates' => $templates
+        ]);
+    }
+    public function restoretemplate($id)
+    {
+        $template = EmailTemplate::withTrashed()->findOrFail($id);
+
+        $this->authorize('update', $template);
+
+        $template->restore();
+
+        return redirect()
+            ->route('email-templates.trash')
+            ->with('success', 'Plantilla restaurada correctamente.');
+    }
+    public function forceDelete($id)
+    {
+        $template = EmailTemplate::withTrashed()->findOrFail($id);
+
+        $this->authorize('delete', $template);
+
+        $template->forceDelete();
+
+        return redirect()
+            ->route('email-templates.trash')
+            ->with('success', 'Plantilla eliminada permanentemente.');
+    }
+
 
 }

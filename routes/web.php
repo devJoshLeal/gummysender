@@ -29,4 +29,10 @@ Route::middleware([
     ->name('email-templates.create');
     Route::post('/email-templates', [EmailTemplateController::class, 'store'])
     ->name('email-templates.store');
+    Route::get('email-templates-trashbin', [EmailTemplateController::class, 'trash'])
+    ->name('email-templates.trash');
+    Route::post('email-templates/{id}/restore', [EmailTemplateController::class, 'restoretemplate'])
+        ->name('email-templates.restoretemplate');
+    Route::delete('email-templates/{id}/force-delete', [EmailTemplateController::class, 'forceDelete'])
+        ->name('email-templates.force-delete');
 });
