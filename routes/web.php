@@ -23,11 +23,10 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
-});
-Route::resource('email-templates', EmailTemplateController::class);
-Route::get('/email-templates', [EmailTemplateController::class,'index'])->name("email-templates.index");
-Route::get('/email-templates/create', [EmailTemplateController::class, 'create'])
+    Route::resource('email-templates', EmailTemplateController::class);
+    Route::get('/email-templates', [EmailTemplateController::class,'index'])->name("email-templates.index");
+    Route::get('/email-templates/create', [EmailTemplateController::class, 'create'])
     ->name('email-templates.create');
-
-Route::post('/email-templates', [EmailTemplateController::class, 'store'])
+    Route::post('/email-templates', [EmailTemplateController::class, 'store'])
     ->name('email-templates.store');
+});
