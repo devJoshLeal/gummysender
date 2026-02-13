@@ -1,16 +1,43 @@
 <script setup>
 import { Link, useForm } from '@inertiajs/vue3'
-import AppLayout from '@/Layouts/AppLayout.vue';
+import Swal from 'sweetalert2'
+import AppLayout from '@/Layouts/AppLayout.vue'
+
 defineProps({
     templates: Array
 })
+
 const form = useForm({})
+
 function confirmDelete(id) {
-    if (confirm('¿Estás seguro de que deseas eliminar esta plantilla?')) {
-        form.delete(route('email-templates.destroy', id))
-    }
+    Swal.fire({
+        title: '¿Eliminar plantilla?',
+        text: 'Esta acción no se puede deshacer.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc2626',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.delete(route('email-templates.destroy', id), {
+                preserveScroll: true,
+                onSuccess: () => {
+                    Swal.fire({
+                        title: 'Eliminado',
+                        text: 'La plantilla fue eliminada correctamente.',
+                        icon: 'success',
+                        timer: 1500,
+                        showConfirmButton: false
+                    })
+                }
+            })
+        }
+    })
 }
 </script>
+
 
 <template>
     <AppLayout title="Email Templates - Index">
