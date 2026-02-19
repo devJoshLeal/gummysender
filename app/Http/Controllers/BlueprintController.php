@@ -10,9 +10,10 @@ class BlueprintController extends Controller
 {
     public function show(Blueprints $blueprint)
     {
-        $route="Blueprints/".$blueprint->title;
-        return Inertia::render($route, [
-            'template' => []
+        //dd($blueprint);
+        return Inertia::render('Blueprints/Show', [
+            'template' => [],
+            'blueprint' => $blueprint->title
         ]);
     }
 }

@@ -36,4 +36,13 @@ Route::middleware([
         ->name('email-templates.restoretemplate');
     Route::delete('email-templates/{id}/force-delete', [EmailTemplateController::class, 'forceDelete'])
         ->name('email-templates.force-delete');
+    Route::get('/blueprints/html/{name}', function ($name) {
+    $path = resource_path("blueprints/{$name}");
+
+    if (!file_exists($path)) {
+        abort(404);
+    }
+
+    return response()->file($path);
+});
 });
