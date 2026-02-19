@@ -1,9 +1,9 @@
 <?php
-
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\EmailTemplateController;
+use App\Http\Controllers\BlueprintController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -23,6 +23,7 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+    Route::resource('blueprints', BlueprintController::class);
     Route::resource('email-templates', EmailTemplateController::class);
     Route::get('/email-templates', [EmailTemplateController::class,'index'])->name("email-templates.index");
     Route::get('/email-templates/create', [EmailTemplateController::class, 'create'])
