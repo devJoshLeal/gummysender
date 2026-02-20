@@ -1,17 +1,21 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-const props=defineProps({
-    template: Array,
-    blueprint: String
-})
-const htmlContent = ref('')
-
-onMounted(async () => {
-    const response = await fetch('/blueprints/html/'+props.blueprint+'.html')
-    htmlContent.value = await response.text()
+defineProps({
+    html: String,
+    blueprint: String,
+    template: Object
 })
 </script>
 
 <template>
-    <div v-html="htmlContent"></div>
+    <div class="space-y-4">
+        <h1 class="text-2xl font-bold">
+            Preview: {{ blueprint }}
+        </h1>
+
+        <iframe
+            v-if="html"
+            :srcdoc="html"
+            class="w-full h-[700px] border rounded-lg bg-white"
+        />
+    </div>
 </template>
